@@ -1,0 +1,74 @@
+flowchart TB
+    subgraph "Client Layer"
+        FM[FileMind Agent<br/>Enterprise Teams]
+    end
+
+    subgraph "API Layer"
+        Gateway[API Gateway<br/>Rate Limit: 60/min<br/>Auth: API Key + HMAC]
+    end
+
+    subgraph "Compute Layer - Hybrid Architecture"
+        Lambda[AWS Lambda<br/>Feature Extraction<br/>Session Management]
+        Fargate[ECS Fargate<br/>Model Server<br/>Inference: ~50ms<br/>Auto-scale: 1-5]
+    end
+
+    subgraph "Storage Layer"
+        DynamoDB[(DynamoDB<br/>Feature Store<br/>TTL: 1 hour<br/>Session Data)]
+        S3[(S3<br/>Model Artifacts<br/>Training Data<br/>Retention: 90 days)]
+    end
+
+    subgraph "Monitoring"
+        CW[CloudWatch<br/>Metrics/Logs<br/>No PII<br/>p95 < 200ms]
+    end
+
+    subgraph "Privacy Guardrails"
+        direction LR
+        PG1[k≥5 Anonymity<br/>All Aggregations]
+        PG2[Session Isolation<br/>No User Tracking]
+        PG3[Hash File Paths<br/>Type Only]
+        PG4[1-Hour TTL<br/>Auto-Expiry]
+    end
+
+    %% Main Flow
+    FM -->|POST /v1/predict<br/>Session Features| Gateway
+    Gateway -->|Validate| Lambda
+    Lambda -->|Extract Features| DynamoDB
+    Lambda -->|Model Request| Fargate
+    Fargate -->|Load Model| S3
+    Fargate -->|Predictions| Lambda
+    Lambda -->|Response| Gateway
+    Gateway -->|Top-3 Document Types<br/>+ Probabilities| FM
+
+    %% Feedback Loop
+    FM -->|POST /v1/feedback<br/>Actual Action| Gateway
+    Gateway -->|Store| Lambda
+    Lambda -->|Training Data| S3
+
+    %% Monitoring Flow
+    Lambda -.->|Metrics| CW
+    Fargate -.->|Performance| CW
+    Gateway -.->|Access Logs| CW
+
+    %% Privacy Application
+    DynamoDB -.->|Enforces| PG4
+    Lambda -.->|Applies| PG3
+    S3 -.->|Maintains| PG1
+    Lambda -.->|Ensures| PG2
+
+    %% Annotations
+    classDef critical fill:#ff9999
+    classDef privacy fill:#99ccff
+    classDef storage fill:#99ff99
+
+    class Fargate critical
+    class PG1,PG2,PG3,PG4 privacy
+    class DynamoDB,S3 storage
+
+    %% Performance & Scale Notes
+    Gateway ---|"Normal: 100 req/day<br/>Pilot: 1K req/day<br/>Enterprise: 10K req/day<br/>Surge: 50K req/hour"|Gateway
+
+    %% Cost Optimization
+    Fargate ---|"Baseline: $5/month<br/>Scale: $50/month<br/>Surge: +$30"|Fargate
+
+    %% Trade-off Decisions
+    Lambda ---|"Alternative: Pure Serverless<br/>Pro: $0 baseline<br/>Con: +200ms cold start"|Lambda
