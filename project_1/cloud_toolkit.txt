@@ -1,0 +1,73 @@
+Cloud Development Toolkit
+Free & Low-Cost Resources for Cloud Architecture & AI Development
+Bookmark this guide — you'll use it throughout this course
+🎯 Why This Matters for Your Career
+The difference between junior and senior developers isn't technical knowledge — it's knowing how to navigate resource constraints. This toolkit helps you:
+
+Avoid costly mistakes: Never be the person who burns $10K/month on idle infrastructure
+Prototype rapidly: Test architectural ideas without credit card anxiety
+Stay competitive: Professional developers know how to leverage free resources effectively
+Build safely: Multiple fallback options when primary resources hit limits
+💡 Professional Context
+Senior engineers don't just know AWS — they know when to use DigitalOcean, when to prototype on local infrastructure, and how to optimize across multiple platforms. This guide gives you that multi-platform fluency.
+
+🏆 Essential Student Programs
+Start here — these provide the most credits and longest access
+GitHub Student Developer Pack
+$13,000+ in free tools & credits
+Your golden ticket: DigitalOcean credits, Azure access, GitHub Copilot, JetBrains licenses, and dozens more professional tools. Apply once, get benefits for your entire degree.
+Google Cloud Platform (Education)
+$300 credit (90 days)
+Excellent for ML workloads, BigQuery, and Kubernetes. Strong free tier even after credits expire. Access to latest AI/ML services.
+Microsoft Azure for Students
+$100 credit + 55+ always-free services
+No credit card required. Great for .NET development, serverless functions, and enterprise integrations. Integrates well with GitHub.
+🚀 Pro Tip
+Apply for GitHub Student Pack first — it unlocks additional credits for other platforms and gives you professional development tools you'll use throughout your career.
+☁️ Cloud Platform Free Tiers
+Always-available resources for ongoing development
+Platform	Free Tier	Best For	Professional Notes
+AWS Free Tier	12 months + always-free services	Learning enterprise patterns	Industry standard — know this architecture
+Google Cloud	Always-free + $300 new user credit	AI/ML, data analytics	Best BigQuery alternative, strong ML tools
+Azure	12 months + always-free services	Enterprise integration, .NET	Microsoft shop knowledge, GitHub integration
+DigitalOcean	$200 credit (GitHub Pack)	Simple VPS, prototyping	Developer-friendly, predictable pricing
+💰 Potential Savings: $2,000+ annually
+These free tiers can handle most student and prototype workloads. Many professionals continue using free tiers for personal projects and testing.
+🏫 UBC & Academic Resources
+Leverage university infrastructure for development and hosting
+UBC CS UNIX Servers
+Free access for all CS students
+remote.students.cs.ubc.ca — Linux environment, development tools, multi-user projects. Perfect for prototyping before cloud deployment.
+CS Department Compute Clusters
+Free for eligible students
+CPU/GPU clusters for compute-intensive work. Ask your instructor about access for course projects requiring significant resources.
+Google Colab
+Free GPU access (daily limits)
+Cloud-hosted Jupyter notebooks with GPU access. Perfect for ML experimentation and data science prototyping.
+🎓 Academic Advantage
+University resources are often overlooked but provide stable, reliable environments for development. Use them for prototyping and testing before deploying to cloud platforms.
+🔧 Development & Prototyping Tools
+Free tools for building and testing before cloud deployment
+Docker Desktop
+Free for personal use
+Containerize applications locally before cloud deployment. Essential for understanding containerized architectures.
+Vercel/Netlify
+Free hosting for static sites
+Deploy frontend applications, static sites, and serverless functions. Great for full-stack prototypes.
+Local AI Models (Ollama/LM Studio)
+Free model hosting
+Run AI models locally for development and testing. Avoid API costs during experimentation phase.
+⚡ Budget-Conscious Alternatives
+Low-cost options when free tiers aren't sufficient
+Paperspace/Vast.ai
+$0.10–0.50/hour GPU
+Cost-effective GPU access for ML training. Pay only for usage time, not idle resources.
+Railway/Render
+$5–20/month
+Simple application hosting with automatic deployments. Good middle ground between free and enterprise options.
+Home Lab Setup
+One-time hardware cost
+Repurpose old hardware for local development. Great for understanding systems administration and infrastructure.
+
+📊 Professional Resource Management
+Senior developers maintain accounts across multiple platforms and choose the right tool for each project. Don’t just learn one cloud provider — understand the ecosystem and use the best tool for each situation. This multi-platform fluency is what separates experienced professionals from beginners.

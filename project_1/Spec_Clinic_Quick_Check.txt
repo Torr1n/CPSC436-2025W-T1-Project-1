@@ -1,0 +1,38 @@
+Spec Clinic Quick Check (Formative)
+Purpose. Early guardrail to keep your Project 1 design on track. We check three things: no leakage, SLA defined, and baseline present. This is formative (low/no points) and fast to review.
+
+What to submit (pick one)
+A 1–2 page draft (or the first 1–2 sections of the Spec Template) covering: user & decision, target & horizon (what/when), features (no leakage), baseline plan, metric & SLA (p95 latency, cost envelope), and a minimal evaluation plan (offline OK).
+Or a filled Spec Template outline with those sections highlighted.
+Design‑only. No code is required. Prototypes are optional and not graded.
+Expand acronyms on first use or see the Glossary.
+What we check (rubric)
+No Leakage: Features are available at prediction time; explicitly exclude leakage (e.g., future info, PII).
+SLA Defined: p95 latency + cost envelope stated (e.g., p95 < 100 ms; free‑tier minded at normal load).
+Baseline Present: A defensible rule/heuristic you can evaluate (the model is optional at this stage).
+How we give feedback
+Rubric marks Yes/No for each criterion.
+If “No”, we add a one‑sentence nudge (e.g., “Define p95 latency target and measurement plan”).
+You can adjust and resubmit before the final Project 1 deadline.
+Do / Don’t
+Do: Use the Spec Template; keep it short and specific.
+Do: Expand acronyms on first use (PIA, SLA, TTL, AUC‑PR, MAE) or link to the Glossary.
+Don’t: Submit code; Project 1 is design‑only.
+Helpful links
+Project 1 FAQ (Design‑Only): Project 1 FAQ
+Glossary & Acronyms: Course Glossary
+Architecture Diagram Starter (Mermaid skeleton): Starter
+Rubric
+Spec Clinic – Quick Check (3 pts)
+Spec Clinic – Quick Check (3 pts)
+Criteria	Ratings	Pts
+This criterion is linked to a Learning OutcomeNo Leakage
+Features are available at prediction time; leakage risks noted.
+1 pts
+This criterion is linked to a Learning OutcomeSLA Defined
+p95 latency + cost envelope stated.
+1 pts
+This criterion is linked to a Learning OutcomeBaseline Present
+Baseline rule/heuristic defined and testable.
+1 pts
+Total Points: 3

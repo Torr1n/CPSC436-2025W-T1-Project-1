@@ -1,0 +1,27 @@
+Architecture Diagram Starter (Project 1)
+Use this as a starting point for your one‑page architecture diagram. Keep it simple and label where privacy guardrails apply.
+
+Mermaid skeleton (paste into mermaid.live)
+flowchart LR
+  A[Client] -->|/predict| B(API Gateway / Ingress)
+  B --> C[Compute (Lambda / ECS)]
+  C --> D[(Data Store: DynamoDB / S3)]
+  C --> E[(Observability: logs / metrics)]
+
+  subgraph Guardrails
+    G[k‑anonymity / jitter (if applicable)]
+    H[Telemetry matrix: keep minimal metrics]
+    I[Retention: raw TTL ≤ 14d; aggregates 90–180d]
+  end
+
+  E -. review .-> Guardrails
+What to include
+Boxes: Client, API Gateway/Ingress, Compute, Data Store, Observability
+Arrows: request flow; where features are computed; where guardrails apply
+Labels: retention TTLs, k‑anonymity/jitter (if public outputs), SLA target
+Keep to one page (6–8 boxes)
+Exclude low‑level implementation details
+Note your target & horizon somewhere on the diagram
+Optional: add a small “Risks & Tests” box with your acceptance checks
+Pair this with a minimal evaluation plan (baseline vs simple model, metric, SLA measurement, cost envelope)
+Glossary: Course Glossary & Acronyms

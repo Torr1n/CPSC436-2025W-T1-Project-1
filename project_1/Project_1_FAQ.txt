@@ -1,0 +1,110 @@
+Project 1 FAQ (Design‑Only)
+Project 1 FAQ (Design‑Only)
+TL;DR
+Design‑only. No code required. Prototypes are optional and not graded. Submit: spec (2–3 pp), PIA excerpt + telemetry matrix, architecture diagram, evaluation plan, insight memo + assumption audit + Socratic log references, and a git hash showing design evolution (README/spec/PIA/diagrams changes are sufficient).
+
+Need acronyms/definitions? See the Glossary & Acronyms page (PIA, SLA, TTL, AUC‑PR, MAE, etc.).
+
+Setup help: see the Python Tooling Cheat Sheet for uv, Python 3.13, and pre‑commit.
+
+1) What is a Socratic Log?
+Show AI as a thinking partner (not a transcript). Capture only moments that changed your design:
+
+Design‑alternatives prompt: Ask for 2–3 viable ways to do X with trade‑offs.
+Red‑team prompt: Ask AI to argue against your current direction (harms, leakage, fairness).
+Inflection point: What changed in your design and why (2–3 sentences).
+Use the Socratic Log template (see attachment).
+
+2) What is a PIA (Privacy Impact Assessment) excerpt, telemetry decision matrix, and “guardrails”?
+PIA excerpt (in your spec): Short section stating data inventory (fields), purpose limitation, retention, and access; link to your full PIA.
+Telemetry decision matrix: For each metric/log you’d collect: Metric | Purpose | Value (1–5) | Invasive (1–5) | Effort (1–5) | Retention | Access | Keep?
+Guardrails: k‑anonymity threshold, jitter/aggregation for public views, raw TTLs, least‑privilege access, disclosure, opt‑in for sensitive features.
+3) Architecture diagram & evaluation plan — what to include?
+Architecture (one page): 6–8 boxes (Client, API Gateway/ingress, Compute, Data store, Cache/CDN, Observability), arrows for flow, labels for guardrails and retention TTLs.
+Minimal evaluation plan: Baseline vs simple model (offline ok); define your metric (e.g., AUC‑PR/MAE), SLA (Service‑Level Agreement) measurement approach (p95 latency), and cost envelope.
+Example: Project 1 exemplar – Architecture & Evaluation (SurgeRisk). You can also start from the Architecture Diagram Starter (Project 1) page (Mermaid skeleton).
+
+3a) API Sketch vs Architecture — what’s the difference?
+API Sketch (one page) is the contract so a reviewer can “call it in their head.” Include:
+
+Endpoints table: method + path + one‑line purpose + auth?
+Request/response examples: one JSON per key endpoint (happy path).
+Status codes: list the main codes + one example error shape.
+Auth scheme: where the token goes (e.g., Authorization: Bearer …), even if stubbed for P1.
+Notes: versioning (e.g., /v1), rate limits (e.g., 60 req/min), idempotency key if relevant.
+Architecture Diagram (one page) shows how the system works beyond the API surface. Include the 6–8 boxes (Client, API Gateway/Ingress, Compute, Data Store, Auth provider, Observability), arrows, and labels for guardrails (retention TTLs, k‑anonymity/jitter if applicable) and external dependencies (e.g., CDN, payments).
+
+Optional: add a single “happy‑path” sequence diagram to make flow crystal clear:
+
+sequenceDiagram
+  participant C as Client
+  participant G as API Gateway
+  participant S as Service
+  participant D as Data Store
+  C->>G: POST /v1/predict (Authorization: Bearer …)
+  G->>S: validate + forward
+  S->>D: read features
+  S-->>G: 200 { score: 0.87 }
+  G-->>C: 200 { score: 0.87 }
+4) What exactly do we submit?
+Spec (2–3 pages) using the Spec Template (include API sketch with example payloads).
+Architecture diagram and minimal evaluation plan.
+PIA excerpt (link full PIA) + telemetry decision matrix; guardrails.
+Insight memo (3 insights), assumption audit, Socratic log references.
+Git hash showing design evolution (docs/PIA/diagrams changes are sufficient).
+5) Is coding required?
+No. Project 1 is design‑only. Prototypes are optional and not graded. If you build anything, don’t let it replace the required design artifacts.
+
+6) How do I choose a prediction target?
+Use the 20‑minute recipe: User & decision → Target & horizon → Features (no leakage) → Baseline → Simple model → Metrics & SLA → Privacy/Reciprocity → Architecture → Minimal experiment. See the ideas attachment for ready‑to‑use targets (e.g., SafeRoute, StudyBuddy, SurgeRisk).
+
+7) How is this graded?
+Design rubric + privacy rubric drive grading: Insight & framing, specification clarity (target/horizon/features, metrics/SLA), baseline & evaluation plan, privacy/ethics/reciprocity, architecture/feasibility, risks & tests, evolution/communication. We’ll also do a short “Spec Clinic” quick check (No leakage? SLA defined? Baseline present?) — formative only.
+
+Attachments:
+Project_Spec_Template (Updated) — Canvas Page
+Project1_Handout.pdf
+Project1_Ideas.pdf
+Project_Spec_Template.pdf
+Project_Design_Rubric.pdf
+PIA_Grading_Rubric.pdf
+PIA_Template.pdf
+Insight_Memo_Template.pdf
+Assumption_Audit_Template.pdf
+Socratic_Log_Template.pdf
+Recourse & Remedy Matrix (Template)
+
+Project 1 — Timebox & Scope Guardrails (Design‑Only)
+
+Short answer: aim for productive, focused hours over iterating on design work this week. Project 1 is design‑only.
+
+Artifacts (one page each, max)
+
+API sketch: endpoints table + 1 example request/response + 1 error + where auth goes.
+Architecture diagram: 6–8 boxes (client, gateway, compute, data, auth, observability) with guardrail labels (retention TTLs, k‑anon/jitter).
+Minimum checklist
+
+Metric chosen (e.g., AUC‑PR/MAE) and why.
+SLA phrasing + how measured (p95 latency + cost envelope).
+One simple baseline (rule/heuristic) + how you’d evaluate it.
+Short “no leakage” note (features available at prediction time; exclude future/PII).
+PIA excerpt + telemetry matrix (brief).
+What not to do: No code, no cloud accounts for P1; don’t over‑engineer diagrams.
+
+Glossary & Acronyms (Course)
+First use expands the acronym; this page provides concise definitions and links for deeper reading.
+
+PIA (Privacy Impact Assessment): A brief analysis of what data you collect, why, who can access it, how long you retain it, and how you reduce harm. Office of the Privacy Commissioner of CanadaLinks to an external site.
+TTL (Time To Live): How long cached data is considered fresh before revalidation/expiry. Cloudflare docsLinks to an external site.
+SLA (Service‑Level Agreement): A stated reliability/latency/availability target and consequences for missing it. WikipediaLinks to an external site.
+API (Application Programming Interface): A contract for how software components talk to each other (inputs/outputs). MDNLinks to an external site.
+AUC‑PR (Area Under the Precision‑Recall Curve): Performance metric for imbalanced binary classification. scikit‑learn docsLinks to an external site.
+MAE (Mean Absolute Error): Average absolute difference between predictions and true values. scikit‑learn docsLinks to an external site.
+p95 latency (95th percentile): 95% of requests complete at or below this time (captures the tail). Google SRE (Monitoring)Links to an external site.
+k‑anonymity: A dataset/aggregate is k‑anonymous if each released group has at least k members (reduces re‑identification). WikipediaLinks to an external site.
+Spatial jitter (geomasking): Small random displacement applied to coordinates to protect privacy. Mapbox: Anonymizing location dataLinks to an external site.
+Telemetry decision matrix: A course tool to weigh each metric/log by value, invasiveness, and effort to decide keep vs drop (supports data minimization). See the PIA template.
+Tools & Setup: See the Python Tooling Cheat Sheet for uv, Python 3.13, and pre‑commit hooks.
+
+Tip: If a term isn’t clear, expand the acronym and add a one‑line definition the first time you use it in your spec.
+

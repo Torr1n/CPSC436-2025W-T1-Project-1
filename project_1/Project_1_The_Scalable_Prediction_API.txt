@@ -1,0 +1,60 @@
+Project 1: The Scalable Prediction API
+🌟 At a Glance
+Goal: Build a scalable prediction API that can survive a viral spike while staying in the free tier.
+
+Context: Your startup went viral on TikTok. Traffic jumped from 100 req/day → 50,000 req/hour.
+
+Skills Practiced: Cost modeling, serverless vs. containers, scaling, authentication, AI collaboration.
+
+Deliverables: Design doc, Implementation, AI Portfolio, Reflection.  Provide a link to your github in the class organization. Note that you need to share it with the class when you submit it.
+
+📦 Deliverables
+Design Document (3–5 pages) — architecture + constraints, ML rationale, cost analysis.
+
+Implementation — repo with history, working deployment, monitoring + security.
+
+AI Collaboration Portfolio — logs, evaluation of advice, prompt iterations, failures & corrections.
+
+Reflection Report (2–3 pages) — lessons on trade-offs, constraints, AI collaboration.
+
+✅ Grading Focus
+Survival: does it scale 10× without crashing?
+
+Economy: does it fit free tier under normal load?
+
+Professionalism: are your decisions defendable?
+
+AI Fluency: did you use AI as a collaborator, not a crutch?
+
+Learning: do you show systems thinking beyond code?
+
+👉 Full details and resources are in the Project 1 Handout PDF.Download Project 1 Handout PDF.
+👉 Questions? Check out the Project 1 FAQ
+
+Rubric
+Criteria	Ratings	Pts
+This criterion is linked to a Learning OutcomeScope (Design‑only)
+No code or running system required; prototypes are optional and not graded. Focus on framing, specification, privacy/ethics, trade‑offs, and evaluation plan.
+0 pts
+This criterion is linked to a Learning OutcomeInsight & Problem Framing
+Clear user/decision; compelling, non-obvious insights guiding the design.
+20 pts
+This criterion is linked to a Learning OutcomeSpecification Clarity (target/horizon/features, API, metrics/SLA)
+No leakage; API coherent; metrics/SLA well-justified.
+20 pts
+This criterion is linked to a Learning OutcomeBaseline & Evaluation Plan (incl. SLA/cost)
+Strong baseline; minimal experiment; SLA/cost measurement plan.
+15 pts
+This criterion is linked to a Learning OutcomePrivacy/Ethics/Reciprocity (PIA + telemetry + guardrails)
+Specific PIA; telemetry matrix thoughtful; guardrails (k/jitter/retention/access) integrated; reciprocity concrete.
+20 pts
+This criterion is linked to a Learning OutcomeArchitecture & Feasibility (diagram, trade-offs)
+Diagram fits constraints; explicit trade-offs and alternatives.
+10 pts
+This criterion is linked to a Learning OutcomeRisks & Mitigations + Measurement Plan
+Top risks identified with concrete tests; clear acceptance criteria.
+10 pts
+This criterion is linked to a Learning OutcomeEvolution & Communication (git, memo, clarity)
+Git shows evolution; insight memo, assumption audit, Socratic log referenced; clear, concise writing.
+5 pts
+Total Points: 100
