@@ -4,12 +4,14 @@ flowchart TB
     end
 
     subgraph "API Layer"
-        Gateway[API Gateway<br/>Rate Limit: 60/min<br/>Auth: API Key + HMAC]
+        Gateway[API Gateway<br/>Rate Limit: 60/min<br/>Cache: 5 min TTL<br/>Auth: API Key + HMAC]
     end
 
     subgraph "Compute Layer - Hybrid Architecture"
         Lambda[AWS Lambda<br/>Feature Extraction<br/>Session Management]
-        Fargate[ECS Fargate<br/>Model Server<br/>Inference: ~50ms<br/>Auto-scale: 1-5]
+        SQS[SQS Queue<br/>Buffer: 1000 msg<br/>Visibility: 5s<br/>DLQ: 3 retries]
+        Fargate[ECS Fargate<br/>Model Server<br/>Inference: ~50ms<br/>Auto-scale: 1-5<br/>Pre-warm: 8am, 1pm]
+        Baseline[Baseline Model<br/>In Lambda Memory<br/>30% Accuracy<br/>Instant Response]
     end
 
     subgraph "Storage Layer"
@@ -19,6 +21,8 @@ flowchart TB
 
     subgraph "Monitoring"
         CW[CloudWatch<br/>Metrics/Logs<br/>No PII<br/>p95 < 200ms]
+        XRay[X-Ray<br/>Distributed Tracing<br/>PII Scrubbing<br/>10% Sampling]
+        Synthetic[Synthetic Tests<br/>Every 5 min<br/>End-to-end]
     end
 
     subgraph "Privacy Guardrails"
@@ -31,11 +35,18 @@ flowchart TB
 
     %% Main Flow
     FM -->|POST /v1/predict<br/>Session Features| Gateway
+    Gateway -->|Check Cache| Gateway
     Gateway -->|Validate| Lambda
     Lambda -->|Extract Features| DynamoDB
-    Lambda -->|Model Request| Fargate
+    Lambda -->|Queue Request| SQS
+    SQS -->|Model Request| Fargate
     Fargate -->|Load Model| S3
     Fargate -->|Predictions| Lambda
+
+    %% Fallback Path
+    Lambda -.->|If Fargate Unavailable| Baseline
+    Baseline -.->|Baseline Prediction| Lambda
+
     Lambda -->|Response| Gateway
     Gateway -->|Top-3 Document Types<br/>+ Probabilities| FM
 
@@ -48,6 +59,8 @@ flowchart TB
     Lambda -.->|Metrics| CW
     Fargate -.->|Performance| CW
     Gateway -.->|Access Logs| CW
+    Lambda -.->|Traces| XRay
+    Synthetic -.->|Health Checks| Gateway
 
     %% Privacy Application
     DynamoDB -.->|Enforces| PG4
@@ -55,20 +68,25 @@ flowchart TB
     S3 -.->|Maintains| PG1
     Lambda -.->|Ensures| PG2
 
+    %% Surge Handling Timeline
+    Gateway ---|"0-30s: Cache hits<br/>30s-2m: Baseline model<br/>2m+: Full model"|Gateway
+
     %% Annotations
     classDef critical fill:#ff9999
     classDef privacy fill:#99ccff
     classDef storage fill:#99ff99
+    classDef monitoring fill:#ffcc99
 
     class Fargate critical
     class PG1,PG2,PG3,PG4 privacy
     class DynamoDB,S3 storage
+    class XRay,Synthetic,CW monitoring
 
     %% Performance & Scale Notes
-    Gateway ---|"Normal: 100 req/day<br/>Pilot: 1K req/day<br/>Enterprise: 10K req/day<br/>Surge: 50K req/hour"|Gateway
+    SQS ---|"Absorbs burst traffic<br/>while Fargate scales<br/>Message retention: 4 days"|SQS
 
     %% Cost Optimization
-    Fargate ---|"Baseline: $5/month<br/>Scale: $50/month<br/>Surge: +$30"|Fargate
+    Fargate ---|"Baseline: $5/month<br/>Scale: $50/month<br/>Surge: +$30<br/>Data transfer: +$5"|Fargate
 
-    %% Trade-off Decisions
-    Lambda ---|"Alternative: Pure Serverless<br/>Pro: $0 baseline<br/>Con: +200ms cold start"|Lambda
+    %% Architecture Alternatives
+    Lambda ---|"Alt 1: SnapStart ($0, 100ms cold)<br/>Alt 2: Provisioned ($8, <50ms)<br/>Alt 3: SageMaker ($0.20/hr)"|Lambda
